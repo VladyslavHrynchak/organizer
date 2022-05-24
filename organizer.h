@@ -17,6 +17,8 @@ private:
     auto google_search(const std::string& text);
 
     auto google_news();
+
+    auto weather();
 };
 
 #endif

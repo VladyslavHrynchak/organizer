@@ -60,6 +60,27 @@ auto Organizer::google_search(const std::string& text)
      return a["articles"].dump(2);
  }
 
+ auto Organizer::weather()
+ {
+
+     httplib::Client cli("http://api.weatherbit.io");
+     string lat, lon;
+     cout << "Enter lat: ";
+     cin >> lat;
+     cout << "Enter lon: ";
+     cin >> lon;
+
+     httplib::Params params;
+     params.emplace("lat", lat);
+     params.emplace("lon", lon);
+
+     auto res = cli.Get("/v2.0/current?key=61acd3060bd24ffa9d8c070d52e0f11b&lang=uk", params,{} );
+     auto a = nlohmann::json::parse(res->body);
+
+     return a["data"][0].dump(2);
+ }
+
+
 void Organizer::start()
 {
     int num;
@@ -71,6 +92,7 @@ void Organizer::start()
     cout << "1 - translator from English" << endl;
     cout << "2 - google search" << endl;
     cout << "3 - google news" << endl;
+    cout << "4 - weather" << endl;
     cin >> num;
     switch (num)
     {
@@ -92,6 +114,11 @@ void Organizer::start()
     case 3:
 
         cout << google_news()<< endl;
+
+        break;
+    case 4:
+
+        cout <<weather() << endl;
 
         break;
 
